@@ -145,7 +145,7 @@ ___
 1. Виртуальная машина на которой установлен WordPress и Nginx/Apache (на ваше усмотрение).
 2. В вашей доменной зоне настроена A-запись на внешний адрес reverse proxy:
     - `https://www.you.domain` (WordPress)
-3. Настроен upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен WordPress.
+3. На сервере `you.domain` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен WordPress.
 4. В браузере можно открыть URL `https://www.you.domain` и увидеть главную страницу WordPress.
 ---
 ### Установка Gitlab CE и Gitlab Runner
@@ -153,20 +153,21 @@ ___
 Необходимо настроить CI/CD систему для автоматического развертывания приложения при изменении кода.
 
 Рекомендации:
-  - Имена серверов: gitlab.you.domain, runner.you.domain
-  - 2 виртальные машины. На одной установлен Gitlab CE на другой Gitlab Runner.
+  - Имена серверов: `gitlab.you.domain` и `runner.you.domain`
   - Характеристики: 4vCPU, 4 RAM, Internal address.
 
 Цель:
-
-1. Автоматический деплой на сервер `app.you.domain` при коммите в репозиторий с WordPress.
+1. Построить pipeline доставки кода в среду эксплуатации, то есть настроить автоматический деплой на сервер `app.you.domain` при коммите в репозиторий с WordPress.
 
 Подробнее об [Gitlab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
 
 Ожидаемый результат:
 
 1. Интерфейс Gitlab доступен по https.
-2. При любом коммите в репозиторий с WordPress и создании тега (например, v1.0.0) происходит деплой на виртуальную машину.
+2. В вашей доменной зоне настроена A-запись на внешний адрес reverse proxy:
+    - `https://gitlab.you.domain` (Gitlab)
+3. На сервере `you.domain` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен Gitlab.
+3. При любом коммите в репозиторий с WordPress и создании тега (например, v1.0.0) происходит деплой на виртуальную машину.
 
 ___
 ### Установка Prometheus, Alert Manager, Node Exporter и Grafana
@@ -184,6 +185,11 @@ ___
 Ожидаемые результаты:
 
 1. Интерфейсы Prometheus, Alert Manager и Grafana доступены по https.
+2. В вашей доменной зоне настроены A-записи на внешний адрес reverse proxy:
+  - `https://grafana.you.domain` (Grafana)
+  - `https://prometheus.you.domain` (Prometheus)
+  - `https://alertmanager.you.domain` (Alert Manager)
+3. На сервере `you.domain` отредактированы upstreams для выше указанных URL и они смотрят на виртуальную машину на которой установлены Prometheus, Alert Manager и Grafana.
 2. В Grafana есть дашборд отображающий метрики из Node Exporter по всем серверам.
 3. В Grafana есть дашборд отображающий метрики из MySQL (*).
 4. В Grafana есть дашборд отображающий метрики из WordPress (*).
