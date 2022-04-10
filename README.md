@@ -3,7 +3,7 @@
   * [Этапы выполнения:](#этапы-выполнения)
       * [Регистрация доменного имени](#регистрация-доменного-имени)
       * [Создание инфраструктуры](#создание-инфраструктуры)
-      * [Создание кластера Nginx и Keepalived](#создание-кластера-nginx-keepalived)
+      * [Установка Nginx и LetsEncrypt](#установка-nginx-letsencrypt)
       * [Установка Gitlab CE и Gitlab Runner](#установка-gitlab-ce-и-gitlab-runner)
       * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
       * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
@@ -34,13 +34,8 @@
 8. Разработать Ansible роль для установки WordPress. (1 VM)
   - 1 виртуальная машина. На которой по коммиту через CI/CD разворачивается и обновляется WordPress.
   - Характеристики: 4vCPU, 4 RAM, Internal address.
-9. Настроить проксирование всех веб-сервисов через кластер Nginx, Keepalived и LetsEncrypt.
-  - https://www.you.domain (WordPress)
-  - https://gitlab.you.domain (Gitlab)
-  - https://grafana.you.domain (Grafana)
-  - https://kibana.you.domain (Kibana)
-  - https://prometheus.you.domain (Prometheus)
-  - https://alertmanager.you.domain (Alert Manager)
+
+
 
 ---
 ## Этапы выполнения:
@@ -88,16 +83,24 @@
 2. Полученная конфигурация инфраструктуры является предварительной, поэтому в ходе дальнейшего выполнения задания возможны изменения.
 
 ---
-### Создание кластера Nginx + Keepalived
+### Установка Nginx и LetsEncrypt
 
-Необходимо разработать Ansible роль для установки кластера Nginx, Keepalived и LetsEncrypt.
+Необходимо разработать Ansible роль для установки Nginx и LetsEncrypt.
 
 ВАЖНО: Для получения LetsEncrypt сертификатов во время тестов своего кода пользуйтесь тестовыми сертификатами, так как количество запросов к боевым серверам LetsEncrypt лимитировано.
 
 Рекомендации:
-  - 3 виртальные машины на каждой установлен Nginx и они работают, как кластер Keepalived.
   - Характеристики: 2vCPU, 2 RAM, External address (Public) и Internal address.
 
+Ожидаемые результаты:
+  - 1 виртальная машина на которой установлен Nginx и LetsEncrypt.
+  - В вашей доменной зоне настроены все A-записи на внешний адрес сервера на котором устанвлен Nginx и LetsEncrypt.
+    - https://www.you.domain (WordPress)
+    - https://gitlab.you.domain (Gitlab)
+    - https://grafana.you.domain (Grafana)
+    - https://kibana.you.domain (Kibana)
+    - https://prometheus.you.domain (Prometheus)
+    - https://alertmanager.you.domain (Alert Manager)
 ---
 ### Установка Gitlab CE и Gitlab Runner
 
