@@ -3,12 +3,11 @@
   * [Этапы выполнения:](#этапы-выполнения)
       * [Регистрация доменного имени](#регистрация-доменного-имени)
       * [Создание инфраструктуры](#создание-инфраструктуры)
-      * [Установка Nginx и LetsEncrypt](#установка-nginx-letsencrypt)
-      * [Установка Gitlab CE и Gitlab Runner](#установка-gitlab-ce-и-gitlab-runner)
-      * [Установка Elasticsearch, Kibana, Logstash](#установка-elasticsearch-kibana-logstash)
-      * [Установка Prometheus, Alert Manager, Node Exporter и Grafana](#установка-prometheus-alertmanager-nodeexporter-grafana)
-      * [Установка кластера MySQL](#установка-кластера-mysql)
+      * [Установка Nginx и LetsEncrypt](#установка-nginx)
+      * [Установка кластера MySQL](#установка-mysql)
       * [Установка WordPress](#установка-wordpress)
+      * [Установка Gitlab CE, Gitlab Runner и настройка CI/CD](#установка-gitlab)
+      * [Установка Prometheus, Alert Manager, Node Exporter и Grafana](#установка-prometheus)
   * [Что необходимо для сдачи задания?](#что-необходимо-для-сдачи-задания)
   * [Как правильно задавать вопросы дипломному руководителю?](#как-правильно-задавать-вопросы-дипломному-руководителю)
 
@@ -17,12 +16,12 @@
 
 1. Зарегистрировать доменное имя (любое на ваш выбор в любой доменной зоне).
 2. Подготовить инфраструктуру на базе облачного провайдера YandexCloud.
-3. Разработать Ansible роль для установки кластера Nginx, Keepalived и LetsEncrypt.
-4. Разработать Ansible роль для установки Gitlab CE и Gitlab Runner.
-5. Разработать Ansible роль для установки Elasticsearch, Kibana, Logstash.
-6. Разработать Ansible роль для установки Prometheus, Alert Manager, Node Exporter и Grafana.   
-7. Разработать Ansible роль для установки кластера MySQL.
-8. Разработать Ansible роль для установки WordPress.
+3. Разработать Ansible роль для установки кластера Nginx и LetsEncrypt.
+4. Разработать Ansible роль для установки кластера MySQL.
+5. Разработать Ansible роль для установки WordPress.
+6. Разработать Ansible роль для установки Gitlab CE, Gitlab Runner.
+7. Настроить CI/CD для автоматического развёртывания приложения.
+8. Разработать Ansible роль для установки Prometheus, Alert Manager, Node Exporter и Grafana.
 
 ---
 ## Этапы выполнения:
@@ -36,6 +35,10 @@
 Рекомендуемые регистраторы:
   - [nic.ru](https://nic.ru)
   - [reg.ru](https://reg.ru)
+
+Цель:
+
+1. Описание цели
 
 Ожидаемые результаты:
 
@@ -64,6 +67,10 @@
 5. Убедитесь, что теперь вы можете выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
 6. В случае использования [Terraform Cloud](https://app.terraform.io/) в качестве [backend](https://www.terraform.io/docs/language/settings/backends/index.html) убедитесь, что применение изменений успешно проходит, используя web-интерфейс Terraform cloud.
 
+Цель:
+
+1. Описание цели
+
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
@@ -80,16 +87,55 @@
   - Имя сервера: `you.domain`
   - Характеристики: 2vCPU, 2 RAM, External address (Public) и Internal address.
 
+Цель:
+
+1. Описание цели
+
 Ожидаемые результаты:
-  - 1 виртальная машина на которой установлен Nginx и LetsEncrypt.
-  - В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
+
+1. 1 виртальная машина на которой установлен Nginx и LetsEncrypt.
+2. В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
     - `https://www.you.domain` (WordPress)
     - `https://gitlab.you.domain` (Gitlab)
     - `https://grafana.you.domain` (Grafana)
     - `https://kibana.you.domain` (Kibana)
     - `https://prometheus.you.domain` (Prometheus)
     - `https://alertmanager.you.domain` (Alert Manager)
-  - В браузере можно открыть любой из этих URL и увидеть ответ сервера (502 Bad Gateway). На текущем этапе выполнение задания это нормально!
+3. В браузере можно открыть любой из этих URL и увидеть ответ сервера (502 Bad Gateway). На текущем этапе выполнение задания это нормально!
+
+___
+### Установка кластера MySQL
+
+Необходимо разработать Ansible роль для установки кластера MySQL.
+
+Рекомендации:
+  - Имена серверов: `db01.you.domain` и `db02.you.domain`
+  - Характеристики: 4vCPU, 4 RAM, Internal address.
+
+Цель:
+
+1. Описание цели
+
+Ожидаемые результаты:
+
+1. 2 виртальные машины. На каждой установлен MySQL и они работают, как кластер Master/Slave.
+
+___
+### Установка WordPress
+
+Необходимо разработать Ansible роль для установки WordPress.
+
+Рекомендации:
+  - Имя сервера: `app.you.domain`
+  - Характеристики: 4vCPU, 4 RAM, Internal address.
+
+Цель:
+
+1. Описание цели
+
+Ожидаемые результаты:
+1. 1 виртуальная машина. На которой установлен WordPress и Nginx/Apache (на ваше усмотрение).
+
 ---
 ### Установка Gitlab CE и Gitlab Runner
 
@@ -102,7 +148,7 @@
 
 Цель:
 
-1. Автоматический деплой при коммите в репозиторий с WordPress.
+1. Автоматический деплой на сервер `app.you.domain` при коммите в репозиторий с WordPress.
 
 Подробнее об [Gitlab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
 
@@ -111,32 +157,27 @@
 1. Интерфейс Gitlab доступен по https.
 2. При любом коммите в репозиторий с WordPress и создании тега (например, v1.0.0) происходит деплой на виртуальную машину.
 
----
-### Установка Elasticsearch, Kibana, Logstash
-
-- 4 виртальные машины. На 3-х установлен кластер Elasticsearch. На 1 виртуальной машине развернута Kibana.
-- Характеристики: 4vCPU, 4 RAM, Internal address.
-
 ___
 ### Установка Prometheus, Alert Manager, Node Exporter и Grafana
 
-- 2 виртальные машины. На одной установлен Prometheus, Alert Manager на другой Grafana.
-- Характеристики: 4vCPU, 4 RAM, Internal address.
+Необходимо разработать Ansible роль для установки Prometheus, Alert Manager и Grafana.
 
-___
+Рекомендации:
+  - Имя сервера: `monitoring.you.domain`
+  - Характеристики: 4vCPU, 4 RAM, Internal address.
 
-### Установка кластера MySQL
+Цель:
 
-- 2 виртальные машины. На каждой установлен MySQL и они работают, как кластер Master/Slave.
-- Характеристики: 4vCPU, 4 RAM, Internal address.
+1. Получение метрик со всей инфраструктуры.
 
-___
+Ожидаемые результаты:
 
-### Установка WordPress
+1. Интерфейсы Prometheus, Alert Manager и Grafana доступены по https.
+2. В Grafana есть дашборд отображающий метрики из Node Exporter по всем серверам.
+3. В Grafana есть дашборд отображающий метрики из MySQL (*).
+4. В Grafana есть дашборд отображающий метрики из WordPress (*).
 
-- 1 виртуальная машина. На которой по коммиту через CI/CD разворачивается и обновляется WordPress.
-- Характеристики: 4vCPU, 4 RAM, Internal address.
-
+Примечание: дашборды со звёздочкой являются опциональными заданиями повышенной сложности их выполнение желательноне, но не обязательно.
 ---
 ## Что необходимо для сдачи задания?
 
