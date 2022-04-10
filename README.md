@@ -5,13 +5,10 @@
       * [Создание инфраструктуры](#создание-инфраструктуры)
       * [Установка Nginx и LetsEncrypt](#установка-nginx-letsencrypt)
       * [Установка Gitlab CE и Gitlab Runner](#установка-gitlab-ce-и-gitlab-runner)
-      * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
-      * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
-      * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
-      * [Создание кластера Nginx + Keepalived](#создание-кластера-nginx-keepalived)
-      * [Создание тестового приложения](#создание-тестового-приложения)
-      * [Подготовка cистемы мониторинга и деплой приложения](#подготовка-cистемы-мониторинга-и-деплой-приложения)
-      * [Установка и настройка CI/CD](#установка-и-настройка-cicd)
+      * [Установка Elasticsearch, Kibana, Logstash](#установка-elasticsearch-kibana-logstash)
+      * [Установка Prometheus, Alert Manager, Node Exporter и Grafana](#установка-prometheus-alertmanager-nodeexporter-grafana)
+      * [Установка кластера MySQL](#установка-кластера-mysql)
+      * [Установка WordPress](#установка-wordpress)
   * [Что необходимо для сдачи задания?](#что-необходимо-для-сдачи-задания)
   * [Как правильно задавать вопросы дипломному руководителю?](#как-правильно-задавать-вопросы-дипломному-руководителю)
 
@@ -19,23 +16,13 @@
 ## Цели:
 
 1. Зарегистрировать доменное имя (любое на ваш выбор в любой доменной зоне).
-2. Подготовить инфраструктуру на базе облачного провайдера YandexCloud (далее YC).
+2. Подготовить инфраструктуру на базе облачного провайдера YandexCloud.
 3. Разработать Ansible роль для установки кластера Nginx, Keepalived и LetsEncrypt.
 4. Разработать Ansible роль для установки Gitlab CE и Gitlab Runner.
-5. Разработать Ansible роль для установки Elasticsearch, Kibana, Logstash. (3 VM)
-  - 4 виртальные машины. На 3-х установлен кластер Elasticsearch. На 1 виртуальной машине развернута Kibana.
-  - Характеристики: 4vCPU, 4 RAM, Internal address.
+5. Разработать Ansible роль для установки Elasticsearch, Kibana, Logstash.
 6. Разработать Ansible роль для установки Prometheus, Alert Manager, Node Exporter и Grafana.   
-  - 2 виртальные машины. На одной установлен Prometheus, Alert Manager на другой Grafana.
-  - Характеристики: 4vCPU, 4 RAM, Internal address.
-7. Разработать Ansible роль для установки кластера MySQL. (2 VM)
-  - 2 виртальные машины. На каждой установлен MySQL и они работают, как кластер Master/Slave.
-  - Характеристики: 4vCPU, 4 RAM, Internal address.
-8. Разработать Ansible роль для установки WordPress. (1 VM)
-  - 1 виртуальная машина. На которой по коммиту через CI/CD разворачивается и обновляется WordPress.
-  - Характеристики: 4vCPU, 4 RAM, Internal address.
-
-
+7. Разработать Ansible роль для установки кластера MySQL.
+8. Разработать Ansible роль для установки WordPress.
 
 ---
 ## Этапы выполнения:
@@ -124,42 +111,39 @@
 1. Интерфейс Gitlab доступен по https.
 2. При любом коммите в репозиторий с WordPress и создании тега (например, v1.0.0) происходит деплой на виртуальную машину.
 
-
-###
 ---
-### Подготовка cистемы мониторинга и деплой приложения
+### Установка Elasticsearch, Kibana, Logstash
 
-Уже должны быть готовы конфигурации для автоматического создания облачной инфраструктуры и поднятия Kubernetes кластера.  
-Теперь необходимо подготовить конфигурационные файлы для настройки нашего Kubernetes кластера.
+- 4 виртальные машины. На 3-х установлен кластер Elasticsearch. На 1 виртуальной машине развернута Kibana.
+- Характеристики: 4vCPU, 4 RAM, Internal address.
 
-Цель:
-1. Задеплоить в кластер [prometheus](https://prometheus.io/), [grafana](https://grafana.com/), [alertmanager](https://github.com/prometheus/alertmanager), [экспортер](https://github.com/prometheus/node_exporter) основных метрик Kubernetes.
-2. Задеплоить тестовое приложение, например, [nginx](https://www.nginx.com/) сервер отдающий статическую страницу.
+___
+### Установка Prometheus, Alert Manager, Node Exporter и Grafana
 
-Рекомендуемый способ выполнения:
-1. Воспользовать пакетом [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus), который уже включает в себя [Kubernetes оператор](https://operatorhub.io/) для [grafana](https://grafana.com/), [prometheus](https://prometheus.io/), [alertmanager](https://github.com/prometheus/alertmanager) и [node_exporter](https://github.com/prometheus/node_exporter). При желании можете собрать все эти приложения отдельно.
-2. Для организации конфигурации использовать [qbec](https://qbec.io/), основанный на [jsonnet](https://jsonnet.org/). Обратите внимание на имеющиеся функции для интеграции helm конфигов и [helm charts](https://helm.sh/)
-3. Если на первом этапе вы не воспользовались [Terraform Cloud](https://app.terraform.io/), то задеплойте в кластер [atlantis](https://www.runatlantis.io/) для отслеживания изменений инфраструктуры.
+- 2 виртальные машины. На одной установлен Prometheus, Alert Manager на другой Grafana.
+- Характеристики: 4vCPU, 4 RAM, Internal address.
 
-Альтернативный вариант:
-1. Для организации конфигурации можно использовать [helm charts](https://helm.sh/)
+___
 
-Ожидаемый результат:
-1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
-2. Http доступ к web интерфейсу grafana.
-3. Дашборды в grafana отображающие состояние Kubernetes кластера.
-4. Http доступ к тестовому приложению.
+### Установка кластера MySQL
+
+- 2 виртальные машины. На каждой установлен MySQL и они работают, как кластер Master/Slave.
+- Характеристики: 4vCPU, 4 RAM, Internal address.
+
+___
+
+### Установка WordPress
+
+- 1 виртуальная машина. На которой по коммиту через CI/CD разворачивается и обновляется WordPress.
+- Характеристики: 4vCPU, 4 RAM, Internal address.
 
 ---
 ## Что необходимо для сдачи задания?
 
-1. Репозиторий с конфигурационными файлами Terraform и готовность продемонстрировать создание всех ресурсов с нуля.
-2. Пример pull request с комментариями созданными atlantis'ом или снимки экрана из Terraform Cloud.
-3. Репозиторий с конфигурацией ansible, если был выбран способ создания Kubernetes кластера при помощи ansible.
-4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
-5. Репозиторий с конфигурацией Kubernetes кластера.
-6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
-7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
+1. Репозиторий со всеми Terraform манифестами и готовность продемонстрировать создание всех ресурсов с нуля.
+2. Репозиторий со всеми Ansible ролями и готовность продемонстрировать установку всех сервисов с нуля.
+3. Ссылка на работающий WordPress на вашем доменном имени.
+4. Все репозитории рекомендуется хранить на одном ресурсе (github или gitlab).
 
 ---
 ## Как правильно задавать вопросы дипломному руководителю?
