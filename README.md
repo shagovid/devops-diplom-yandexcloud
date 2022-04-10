@@ -94,7 +94,7 @@
 
 Ожидаемые результаты:
   - 1 виртальная машина на которой установлен Nginx и LetsEncrypt.
-  - В вашей доменной зоне настроены все A-записи на внешний адрес сервера на котором устанвлен Nginx и LetsEncrypt.
+  - В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
     - https://www.you.domain (WordPress)
     - https://gitlab.you.domain (Gitlab)
     - https://grafana.you.domain (Grafana)
