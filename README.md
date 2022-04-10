@@ -90,17 +90,18 @@
 ВАЖНО: Для получения LetsEncrypt сертификатов во время тестов своего кода пользуйтесь тестовыми сертификатами, так как количество запросов к боевым серверам LetsEncrypt лимитировано.
 
 Рекомендации:
+  - Имя сервера: `you.domain`
   - Характеристики: 2vCPU, 2 RAM, External address (Public) и Internal address.
 
 Ожидаемые результаты:
   - 1 виртальная машина на которой установлен Nginx и LetsEncrypt.
   - В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
-    - https://www.you.domain (WordPress)
-    - https://gitlab.you.domain (Gitlab)
-    - https://grafana.you.domain (Grafana)
-    - https://kibana.you.domain (Kibana)
-    - https://prometheus.you.domain (Prometheus)
-    - https://alertmanager.you.domain (Alert Manager)
+    - `https://www.you.domain` (WordPress)
+    - `https://gitlab.you.domain` (Gitlab)
+    - `https://grafana.you.domain` (Grafana)
+    - `https://kibana.you.domain` (Kibana)
+    - `https://prometheus.you.domain` (Prometheus)
+    - `https://alertmanager.you.domain` (Alert Manager)
 ---
 ### Установка Gitlab CE и Gitlab Runner
 
