@@ -102,6 +102,7 @@
     - `https://kibana.you.domain` (Kibana)
     - `https://prometheus.you.domain` (Prometheus)
     - `https://alertmanager.you.domain` (Alert Manager)
+  - В браузере можно открыть любой из этих URL и увидеть ответ сервера (502 Bad Gateway). На текущем этапе выполнение задания это нормально!
 ---
 ### Установка Gitlab CE и Gitlab Runner
 
