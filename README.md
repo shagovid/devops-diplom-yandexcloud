@@ -15,13 +15,13 @@
 ## Цели:
 
 1. Зарегистрировать доменное имя (любое на ваш выбор в любой доменной зоне).
-2. Подготовить инфраструктуру на базе облачного провайдера YandexCloud.
-3. Разработать Ansible роль для установки кластера Nginx и LetsEncrypt.
-4. Разработать Ansible роль для установки кластера MySQL.
-5. Разработать Ansible роль для установки WordPress.
-6. Разработать Ansible роль для установки Gitlab CE, Gitlab Runner.
+2. Подготовить инфраструктуру с помощью Terraform на базе облачного провайдера YandexCloud.
+3. Настроить внешний Reverse Proxy на основе Nginx и LetsEncrypt.
+4. Настроить кластер MySQL.
+5. Установить WordPress.
+6. Развернуть Gitlab CE и Gitlab Runner.
 7. Настроить CI/CD для автоматического развёртывания приложения.
-8. Разработать Ansible роль для установки Prometheus, Alert Manager, Node Exporter и Grafana.
+8. Настроить мониторинг инфраструктуры с помощью стека: Prometheus, Alert Manager и Grafana.
 
 ---
 ## Этапы выполнения:
