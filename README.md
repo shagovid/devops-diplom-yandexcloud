@@ -15,7 +15,7 @@
 ## Цели:
 
 1. Зарегистрировать доменное имя (любое на ваш выбор в любой доменной зоне); ☑ 
-2. Подготовить инфраструктуру с помощью Terraform на базе облачного провайдера YandexCloud; 80%
+2. Подготовить инфраструктуру с помощью Terraform на базе облачного провайдера YandexCloud; 85%
 3. Настроить внешний Reverse Proxy на основе Nginx и LetsEncrypt; 50%
 4. Настроить кластер MySQL; 15%
 5. Установить WordPress; 30%
@@ -29,17 +29,17 @@
 ### Регистрация доменного имени
 
 Рекомендуемые регистраторы:
-  - [reg.ru](https://reg.ru) Лучше по соответствию цена/функционал
+  - [reg.ru](https://reg.ru) - (лучше по соответствию цена/функционал)
   - [nic.ru](https://nic.ru)
 
 Цель:
 
 1. Получить возможность выписывать [TLS сертификаты](https://letsencrypt.org) для веб-сервера. ✓
 
-Ожидаемые результаты:
+Результаты:
 
-1. У вас есть доступ к личному кабинету на сайте регистратора; ✓
-2. Вы зарезистрировали домен и можете им управлять (kuberwars.online). ✓
+1. Есть доступ к личному кабинету на сайте регистратора; ✓
+2. Зарегистрировали домен и можете им управлять (kuberwars.online). ✓
 
 ### Создание инфраструктуры
 
@@ -81,7 +81,7 @@
 **Для получения LetsEncrypt сертификатов во время тестов своего кода пользуйтесь [тестовыми сертификатами](https://letsencrypt.org/docs/staging-environment/), так как количество запросов к боевым серверам LetsEncrypt [лимитировано](https://letsencrypt.org/docs/rate-limits/).**
 
 Рекомендации:
-  - Имя сервера: `you.domain`
+  - Имя сервера: `kuberwars.online`
   - Характеристики: 2vCPU, 2 RAM, External address (Public) и Internal address.
 
 Цель:
@@ -91,11 +91,11 @@
 Ожидаемые результаты:
 
 1. В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
-    - `https://www.you.domain` (WordPress)
-    - `https://gitlab.you.domain` (Gitlab)
-    - `https://grafana.you.domain` (Grafana)
-    - `https://prometheus.you.domain` (Prometheus)
-    - `https://alertmanager.you.domain` (Alert Manager)
+    - `https://www.kuberwars.online` (WordPress)
+    - `https://gitlab.kuberwars.online` (Gitlab)
+    - `https://grafana.kuberwars.online` (Grafana)
+    - `https://prometheus.kuberwars.online` (Prometheus)
+    - `https://alertmanager.kuberwars.online` (Alert Manager)
 2. Настроены все upstream для выше указанных URL, куда они сейчас ведут на этом шаге не важно, позже вы их отредактируете и укажите верные значения.
 2. В браузере можно открыть любой из этих URL и увидеть ответ сервера (502 Bad Gateway). На текущем этапе выполнение задания это нормально!
 
@@ -105,7 +105,7 @@ ___
 Необходимо разработать Ansible роль для установки кластера MySQL.
 
 Рекомендации:
-  - Имена серверов: `db01.you.domain` и `db02.you.domain`
+  - Имена серверов: `db01.kuberwars.online` и `db02.kuberwars.online`
   - Характеристики: 4vCPU, 4 RAM, Internal address.
 
 Цель:
@@ -126,7 +126,7 @@ ___
 Необходимо разработать Ansible роль для установки WordPress.
 
 Рекомендации:
-  - Имя сервера: `app.you.domain`
+  - Имя сервера: `app.kuberwars.online`
   - Характеристики: 4vCPU, 4 RAM, Internal address.
 
 Цель:
@@ -140,20 +140,20 @@ ___
 
 1. Виртуальная машина на которой установлен WordPress и Nginx/Apache (на ваше усмотрение).
 2. В вашей доменной зоне настроена A-запись на внешний адрес reverse proxy:
-    - `https://www.you.domain` (WordPress)
-3. На сервере `you.domain` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен WordPress.
-4. В браузере можно открыть URL `https://www.you.domain` и увидеть главную страницу WordPress.
+    - `https://www.kuberwars.online` (WordPress)
+3. На сервере `kuberwars.online` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен WordPress.
+4. В браузере можно открыть URL `https://www.kuberwars.online` и увидеть главную страницу WordPress.
 ---
 ### Установка Gitlab CE и Gitlab Runner
 
 Необходимо настроить CI/CD систему для автоматического развертывания приложения при изменении кода.
 
 Рекомендации:
-  - Имена серверов: `gitlab.you.domain` и `runner.you.domain`
+  - Имена серверов: `gitlab.kuberwars.online` и `runner.kuberwars.online`
   - Характеристики: 4vCPU, 4 RAM, Internal address.
 
 Цель:
-1. Построить pipeline доставки кода в среду эксплуатации, то есть настроить автоматический деплой на сервер `app.you.domain` при коммите в репозиторий с WordPress.
+1. Построить pipeline доставки кода в среду эксплуатации, то есть настроить автоматический деплой на сервер `app.kuberwars.online` при коммите в репозиторий с WordPress.
 
 Подробнее об [Gitlab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
 
@@ -161,8 +161,8 @@ ___
 
 1. Интерфейс Gitlab доступен по https.
 2. В вашей доменной зоне настроена A-запись на внешний адрес reverse proxy:
-    - `https://gitlab.you.domain` (Gitlab)
-3. На сервере `you.domain` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен Gitlab.
+    - `https://gitlab.kuberwars.online` (Gitlab)
+3. На сервере `kuberwars.online` отредактирован upstream для выше указанного URL и он смотрит на виртуальную машину на которой установлен Gitlab.
 3. При любом коммите в репозиторий с WordPress и создании тега (например, v1.0.0) происходит деплой на виртуальную машину.
 
 ___
@@ -171,7 +171,7 @@ ___
 Необходимо разработать Ansible роль для установки Prometheus, Alert Manager и Grafana.
 
 Рекомендации:
-  - Имя сервера: `monitoring.you.domain`
+  - Имя сервера: `monitoring.kuberwars.online`
   - Характеристики: 4vCPU, 4 RAM, Internal address.
 
 Цель:
@@ -182,10 +182,10 @@ ___
 
 1. Интерфейсы Prometheus, Alert Manager и Grafana доступены по https.
 2. В вашей доменной зоне настроены A-записи на внешний адрес reverse proxy:
-  - `https://grafana.you.domain` (Grafana)
-  - `https://prometheus.you.domain` (Prometheus)
-  - `https://alertmanager.you.domain` (Alert Manager)
-3. На сервере `you.domain` отредактированы upstreams для выше указанных URL и они смотрят на виртуальную машину на которой установлены Prometheus, Alert Manager и Grafana.
+  - `https://grafana.kuberwars.online` (Grafana)
+  - `https://prometheus.kuberwars.online` (Prometheus)
+  - `https://alertmanager.kuberwars.online` (Alert Manager)
+3. На сервере `kuberwars.online` отредактированы upstreams для выше указанных URL и они смотрят на виртуальную машину на которой установлены Prometheus, Alert Manager и Grafana.
 4. На всех серверах установлен Node Exporter и его метрики доступны Prometheus.
 5. У Alert Manager есть необходимый [набор правил](https://awesome-prometheus-alerts.grep.to/rules.html) для создания алертов.
 2. В Grafana есть дашборд отображающий метрики из Node Exporter по всем серверам.
@@ -200,16 +200,16 @@ ___
 1. Репозиторий со всеми Terraform манифестами и готовность продемонстрировать создание всех ресурсов с нуля.
 2. Репозиторий со всеми Ansible ролями и готовность продемонстрировать установку всех сервисов с нуля.
 3. Скриншоты веб-интерфейсов всех сервисов работающих по HTTPS на вашем доменном имени.
-  - `https://www.you.domain` (WordPress)
-  - `https://gitlab.you.domain` (Gitlab)
-  - `https://grafana.you.domain` (Grafana)
-  - `https://prometheus.you.domain` (Prometheus)
-  - `https://alertmanager.you.domain` (Alert Manager)
+  - `https://www.kuberwars.online` (WordPress)
+  - `https://gitlab.kuberwars.online` (Gitlab)
+  - `https://grafana.kuberwars.online` (Grafana)
+  - `https://prometheus.kuberwars.online` (Prometheus)
+  - `https://alertmanager.kuberwars.online` (Alert Manager)
 4. Все репозитории рекомендуется хранить на одном из ресурсов ([github.com](https://github.com) или [gitlab.com](https://gitlab.com)).
 
 ---
 #### Полезные ссылки
 
-1. 
+1. https://galaxy.ansible.com
 
 ---
